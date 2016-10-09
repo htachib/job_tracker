@@ -18,7 +18,12 @@ class TeamMember < ActiveRecord::Base
   end
 
   def initials
-    first_name.chars.first + middle_name.chars.first + last_name.chars.first
+    initials = ''
+    initials += first_name.chars.first
+    initials += middle_name.chars.first if middle_name?
+    initials += last_name.chars.first
+
+    initials
   end
 
 end
