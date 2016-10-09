@@ -1,8 +1,22 @@
 /* Global */
 body {font-family: Helvetica, Arial}
 .jumbotron {background-color: transparent; text-align: center}
-.gap {margin-top: 60px}
-.uvp {text-align: center; margin-left: auto; margin-right: auto}
+.container {width: 1300px}
+h1 {margin-bottom: 20px}
+
+// Dashboard
+.ahead {color: green}
+.behind {color: red}
+.progress-bar-sales {background-color: #375E97}
+.progress-bar-quoting {background-color: #C8AF77}
+.progress-bar-design {background-color: #FB6542}
+.progress-bar-engineering {background-color: #FFBB00}
+.progress-bar-production {background-color: #B2B2B2}
+.progress-bar-inspections {background-color: #D23F38}
+.progress-bar-shipping {background-color: #3F681C}
+.progress-legend {width: 14.28%}
+.legend {margin-bottom: 40px}
+select.form-control {display: inline-block; width: 6%}
 
 /* Navigation */
 .navbar {background-color: transparent; border: none}
