@@ -1,0 +1,77 @@
+<h3>At least
+
+  <span>
+    <select class="form-control">
+      <option>1</option>
+      <option>30</option>
+      <option>60</option>
+      <option>90</option>
+    </select>
+  </span>
+
+  days late
+   (<%= count %>)
+ </h3>
+
+<table class="table table-striped">
+
+  <thead>
+    <tr>
+      <th style="width: 6%">SOID</th>
+      <th style="width: 6%">Part Type</th>
+      <th style="width: 6%">Part ID</th>
+      <th style="width: 13%">Customer</th>
+      <th class="col-md-3">Progress</th>
+      <th style="width: 8%">Status</th>
+      <th style="width: 4%">Stage</th>
+      <th style="width: 4%">Owner</th>
+      <th style="width: 5%">Requested Ship Date</th>
+      <th style="width: 5%">Estimated Ship Date</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% po_list.each do |po| %>
+      <tr data-po-id="<%= po.id %>">
+        <td><%= po.soid %></td>
+        <td><%= po.part.part_type %></td>
+        <td><%= po.part.external_id %></td>
+        <td><%= po.customer.company_name %></td>
+        <td>
+          <div class="progress">
+            <div class="progress-bar progress-bar-sales" role="progressbar" style="width:<%= stage_progress("Sales", po) %>%">
+              Sales
+            </div>
+            <div class="progress-bar progress-bar-quoting" role="progressbar" style="width:<%= stage_progress("Quoting", po) %>%">
+              Quoting
+            </div>
+            <div class="progress-bar progress-bar-design" role="progressbar" style="width:<%= stage_progress("Design", po) %>%">
+              Design
+            </div>
+            <div class="progress-bar progress-bar-engineering" role="progressbar" style="width:<%= stage_progress("Engineering", po) %>%">
+              Engineering
+            </div>
+            <div class="progress-bar progress-bar-production" role="progressbar" style="width:<%= stage_progress("Production", po) %>%">
+              Production
+            </div>
+            <div class="progress-bar progress-bar-inspections" role="progressbar" style="width:<%= stage_progress("Inspections", po) %>%">
+              Inspections
+            </div>
+            <div class="progress-bar progress-bar-shipping" role="progressbar" style="width:<%= stage_progress("Shipping", po) %>%">
+              Shipping
+            </div>
+          </div>
+        </td>
+        <td class="<%= status_color(po) %>">
+          <%= po.status %>
+        </td>
+        <td><%= po.logs.last.department %></td>
+        <td><%= po.team_member.initials %></td>
+        <td><%= po.requested_ship_date.strftime('%m/%d/%y') %></td>
+        <td><%= po.estimated_ship_date.strftime('%m/%d/%y') %></td>
+      </tr>
+    <% end %>
+  </tbody>
+
+
+</table>

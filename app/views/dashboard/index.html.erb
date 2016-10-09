@@ -1,0 +1,14 @@
+<h1 class="text-center"> P&S On-Time Delivery Report </h1>
+
+<%= render partial: "legend" %>
+<%= render partial: "table", locals: {title: @title, po_list: @overdue, count: @overdue.count } %>
+
+<script>
+$(function() {
+  $('select').on('change', function() {
+    var val = $(this).find('option:selected').text();
+
+    window.location.href = "/dashboard?overdue=" + val
+  });
+})
+</script>
