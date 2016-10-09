@@ -1,6 +1,6 @@
 30.times do |num|
   member = TeamMember.create!(first_name: Faker::Name.first_name, last_name: Faker::Name.last_name)
-  po = member.purchase_orders.create!(soid: Faker::Code.asin, requested_ship_date: Faker::Date.forward(Faker::Number.between(1, 100)),
+  po = member.purchase_orders.create!(soid: Faker::Code.asin[0..6], requested_ship_date: Faker::Date.forward(Faker::Number.between(1, 100)),
        quantity: Faker::Number.between(1,1000), unit_price: Faker::Commerce.price)
 
   if num % 2 == 0
@@ -20,19 +20,26 @@
   part = Part.create!(external_id: random, part_type: part_types.shuffle.first)
   po.update(part_id: part.id)
 
-  departments = ["Production", "Engineering", "Quoting", "Sales", "Inspections", "Design"]
+  departments = ["Sales", "Quoting", "Design", "Engineering", "Production", "Inspections", "Shipping"]
 
-  5.times do |n|
-    log = Log.create!(agent: Faker::Name.name_with_middle, department: departments.shuffle.first, comment: Faker::Hacker.say_something_smart,
+  # at least do sales step for every PO
+  log = Log.create!(agent: Faker::Name.name_with_middle, department: departments[0], comment: Faker::Hacker.say_something_smart,
+                   part_id: part.id, purchase_order_id: po.id, customer_id: customer.id)
+
+  progress = Faker::Number.between(1, 6)
+  progress.times do |n|
+    log = Log.create!(agent: Faker::Name.name_with_middle, department: departments[n], comment: Faker::Hacker.say_something_smart,
                      part_id: part.id, purchase_order_id: po.id, customer_id: customer.id)
   end
 end
 
-
-
-
-
-
+def delete_everything
+  Log.destroy_all
+  Part.destroy_all
+  Customer.destroy_all
+  PurchaseOrder.destroy_all
+  TeamMember.destroy_all
+end
 
 
 #   person = {first_name: 'Bob', last_name: 'Kulp'}
