@@ -7,24 +7,28 @@ class PurchaseOrder < ActiveRecord::Base
 
   STAGES = ["Sales", "Quoting", "Design", "Engineering", "Production", "Inspections", "Shipping"]
 
-  PART_IDS = ["ASDF1234", "DEFG1234", "HIJK1234", "LMNO1234"]
-
-  # crunched from historical averages of each part_id, should automatically update every week or so
+  # crunched from historical averages of each part_type, should automatically update every week or so
   STAGE_LENGTHS = {
-    'ASDF1234' => {"Sales" => 1, "Quoting" => 2, "Design" => 7, "Engineering" => 14, "Production" => 80, "Inspections" => 20, "Shipping" => 5},
-    'DEFG1234' => {"Sales" => 2, "Quoting" => 4, "Design" => 15, "Engineering" => 20, "Production" => 20, "Inspections" => 10, "Shipping" => 1},
-    'HIJK1234' => {"Sales" => 4, "Quoting" => 6, "Design" => 23, "Engineering" => 25, "Production" => 50, "Inspections" => 23, "Shipping" => 3},
-    'LMNO1234' => {"Sales" => 7, "Quoting" => 3, "Design" => 9, "Engineering" => 30, "Production" => 60, "Inspections" => 15, "Shipping" => 10}
+    'CUST' => {"Sales" => 1, "Quoting" => 2, "Design" => 7, "Engineering" => 14, "Production" => 20, "Inspections" => 20, "Shipping" => 5},
+    'STD LT' => {"Sales" => 2, "Quoting" => 4, "Design" => 15, "Engineering" => 20, "Production" => 80, "Inspections" => 10, "Shipping" => 1},
+    'STD' => {"Sales" => 2, "Quoting" => 4, "Design" => 15, "Engineering" => 20, "Production" => 10, "Inspections" => 10, "Shipping" => 1},
+    'PLAS' => {"Sales" => 4, "Quoting" => 6, "Design" => 23, "Engineering" => 25, "Production" => 50, "Inspections" => 23, "Shipping" => 3},
+    'CSP' => {"Sales" => 7, "Quoting" => 3, "Design" => 9, "Engineering" => 30, "Production" => 60, "Inspections" => 15, "Shipping" => 10},
+    'MEMO' => {"Sales" => 6, "Quoting" => 3, "Design" => 6, "Engineering" => 30, "Production" => 60, "Inspections" => 15, "Shipping" => 2},
+    'MODU' => {"Sales" => 7, "Quoting" => 3, "Design" => 5, "Engineering" => 40, "Production" => 60, "Inspections" => 15, "Shipping" => 3},
+    'SBAS' => {"Sales" => 8, "Quoting" => 3, "Design" => 10, "Engineering" => 50, "Production" => 60, "Inspections" => 15, "Shipping" => 5},
+    'SRVC' => {"Sales" => 9, "Quoting" => 3, "Design" => 15, "Engineering" => 20, "Production" => 60, "Inspections" => 15, "Shipping" => 6},
+    'TI' => {"Sales" => 10, "Quoting" => 3, "Design" => 10, "Engineering" => 50, "Production" => 100, "Inspections" => 15, "Shipping" => 7}
   }
 
-  def calculate_average_stage_lengths
-    case part_id
-    when 'engineering'
-      stage_length[engineering] = time_stmp
-    when 'quoting'
-      stage_length[quoting] = time_stmp
-    end
-  end
+  # def calculate_average_stage_lengths
+  #   case part_id
+  #   when 'engineering'
+  #     stage_length[engineering] = time_stmp
+  #   when 'quoting'
+  #     stage_length[quoting] = time_stmp
+  #   end
+  # end
 
 
 # status generates number of days PO will be late or early,
@@ -47,12 +51,12 @@ class PurchaseOrder < ActiveRecord::Base
 
   def complete_stages
     logs = self.logs
-    completed = logs.map {|log| log.department}.uniq
+    logs.map {|log| log.department}.uniq
   end
 
   def estimated_days_left
     sum = 0
-    incomplete_stages.map {|stage| sum += stage_lengths[stage]}.last
+    incomplete_stages.map {|stage| sum += stage_lengths[stage]}.last || 0
   end
 
   def estimate_ship_date
@@ -71,7 +75,7 @@ class PurchaseOrder < ActiveRecord::Base
   # end
 
   def stage_lengths
-    STAGE_LENGTHS[self.part.external_id] # => hash of all stages for part ID
+    STAGE_LENGTHS[self.part.part_type] # => hash of all stages for part ID
   end
 
   # returns an integer, works backwards from what's remaining vs what's been done
