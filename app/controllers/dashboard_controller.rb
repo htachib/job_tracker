@@ -1,6 +1,7 @@
 class DashboardController < ApplicationController
+  before_action :authenticate_user!
 
-  def index
+  def index #fetch POs from database to iterate through
     overdue_length = params[:overdue].to_i || 0
     @title = "At least #{overdue_length} days late"
 
