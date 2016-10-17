@@ -1,7 +1,7 @@
 <h1 class="text-center"> P&S On-Time Delivery Report </h1>
 
 <%= render partial: "legend" %>
-<%= render partial: "table", locals: {title: @title, po_list: @overdue, count: @overdue.count } %>
+<%= render partial: "table", locals: {title: @title, po_list: @overdue, count: @overdue.count } %> #=> how table is sorted
 
 <script>
 $(function() {

@@ -2,14 +2,26 @@ default: &default
   adapter: postgresql
   pool: 5
   timeout: 5000
+  enconding: unicode
+  reconnect: true
+
 
 development:
   <<: *default
   database: micross_otd_dev
+  username: postgres
+  password: bounce57
+  host: localhost
+  port: 3000
 
 test:
   <<: *default
   database: micross_otd_test
+  adapter: postgresql
+  encoding: unicode
+  pool: 5
+  username: htachibana
+  # password: password1
 
 production:
   <<: *default

@@ -2,6 +2,8 @@ Rails.application.routes.draw do
 
   root 'pages#home'
   get 'dashboard', to: "dashboard#index", as: 'dashboard'
+  get 'purchase_orders/:id', to: "purchase_orders#show", as: 'purchase_order'
+#reroute id path to show controllers, extra convenience method for path
 
   devise_for :users, :controllers => {:registrations => "registrations"}
   devise_scope :user do

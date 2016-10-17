@@ -18,9 +18,9 @@
   <thead>
     <tr>
       <th style="width: 6%">SOID</th>
-      <th style="width: 6%">Part Type</th>
-      <th style="width: 6%">Part ID</th>
-      <th style="width: 13%">Customer</th>
+      <th style="width: 4%">Part Type</th>
+      <th style="width: 5%">Part ID</th>
+      <th style="width: 15%">Customer</th>
       <th class="col-md-3">Progress</th>
       <th style="width: 8%">Status</th>
       <th style="width: 4%">Stage</th>
@@ -65,7 +65,7 @@
         <td class="<%= status_color(po) %>">
           <%= po.status %>
         </td>
-        <td><%= po.logs.last.department %></td>
+        <td><%= po.logs.first.department %></td>
         <td><%= po.team_member.initials %></td>
         <td><%= po.requested_ship_date.strftime('%m/%d/%y') %></td>
         <td><%= po.estimated_ship_date.strftime('%m/%d/%y') %></td>
