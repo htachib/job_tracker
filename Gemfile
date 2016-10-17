@@ -1,5 +1,5 @@
-source 'https://rubygems.org'
-ruby "2.3.0"
+source 'http://rubygems.org'
+ruby "2.3.1"
 
 # included
 gem 'rails', '4.2.3'
@@ -11,6 +11,10 @@ gem 'turbolinks'
 gem 'jbuilder', '~> 2.0'
 gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'faker'
+gem 'tzinfo-data'
+gem 'debug_inspector'
+gem 'bcrypt','~>3.1.11'
+gem 'actionview'
 
 # speedrail
 gem 'twitter-bootstrap-rails', :git => 'git://github.com/seyhunak/twitter-bootstrap-rails.git'
@@ -44,3 +48,8 @@ group :development, :test do
   gem "binding_of_caller"
 
 end
+
+
+#deleted:
+#      debug_inspector (>= 0.0.1)
+# =>     debug_inspector (0.0.2)
